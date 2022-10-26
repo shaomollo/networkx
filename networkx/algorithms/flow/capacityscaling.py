@@ -300,6 +300,9 @@ def capacity_scaling(
     R_succ = R.succ
 
     delta = 2 ** int(log(wmax, 2))
+    T = set()
+    T_add = T.add
+    T_remove = T.remove
     while delta >= 1:
         # Saturate Δ-residual edges with negative reduced costs to achieve
         # Δ-optimality.
@@ -317,11 +320,8 @@ def capacity_scaling(
                             R_nodes[v]["excess"] += flow
         # Determine the Δ-active nodes.
         S = set()
-        T = set()
         S_add = S.add
         S_remove = S.remove
-        T_add = T.add
-        T_remove = T.remove
         for u in R:
             excess = R_nodes[u]["excess"]
             if excess >= delta:

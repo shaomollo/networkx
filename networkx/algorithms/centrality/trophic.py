@@ -65,13 +65,9 @@ def trophic_levels(G, weight="weight"):
         raise nx.NetworkXError(msg) from err
     y = n.sum(axis=1) + 1
 
-    levels = {}
-
     # all nodes with in-degree zero have trophic level == 1
     zero_node_ids = (node_id for node_id, degree in G.in_degree if degree == 0)
-    for node_id in zero_node_ids:
-        levels[node_id] = 1
-
+    levels = {node_id: 1 for node_id in zero_node_ids}
     # all other nodes have levels as calculated
     nonzero_node_ids = (node_id for node_id, degree in G.in_degree if degree != 0)
     for i, node_id in enumerate(nonzero_node_ids):
@@ -146,9 +142,7 @@ def trophic_incoherence_parameter(G, weight="weight", cannibalism=False):
     if cannibalism:
         diffs = trophic_differences(G, weight=weight)
     else:
-        # If no cannibalism, remove self-edges
-        self_loops = list(nx.selfloop_edges(G))
-        if self_loops:
+        if self_loops := list(nx.selfloop_edges(G)):
             # Make a copy so we do not change G's edges in memory
             G_2 = G.copy()
             G_2.remove_edges_from(self_loops)

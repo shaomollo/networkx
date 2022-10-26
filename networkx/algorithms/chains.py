@@ -108,15 +108,8 @@ def chain_decomposition(G, root=None):
                     H.add_node(v, parent=u)
                     H.add_edge(v, u, nontree=False)
                     nodes.append(v)
-            # `dfs_labeled_edges` considers nontree edges in both
-            # orientations, so we need to not add the edge if it its
-            # other orientation has been added.
             elif d == "nontree" and v not in H[u]:
                 H.add_edge(v, u, nontree=True)
-            else:
-                # Do nothing on 'reverse' edges; we only care about
-                # forward and nontree edges.
-                pass
         return H, nodes
 
     def _build_chain(G, u, v, visited):

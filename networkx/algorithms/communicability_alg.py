@@ -78,12 +78,10 @@ def communicability(G):
     # computing communicabilities
     for u in G:
         c[u] = {}
+        p = mapping[u]
         for v in G:
-            s = 0
-            p = mapping[u]
             q = mapping[v]
-            for j in range(len(nodelist)):
-                s += vec[:, j][p] * vec[:, j][q] * expw[j]
+            s = sum(vec[:, j][p] * vec[:, j][q] * expw[j] for j in range(len(nodelist)))
             c[u][v] = float(s)
     return c
 
